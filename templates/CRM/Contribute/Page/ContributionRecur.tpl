@@ -59,10 +59,13 @@
     {strip}
     <table class="selector row-highlight">
         <tr class="columnheader">
+            <th scope="col">{ts}Payment Processor{/ts}</th>
+            <th scope="col">{ts}Processor ID{/ts}</th>
             <th scope="col">{ts}Amount{/ts}</th>
             <th scope="col">{ts}Frequency{/ts}</th>
             <th scope="col">{ts}Start Date{/ts}</th>
-            <th scope="col">{ts}Installments{/ts}</th>
+            <!-- <th scope="col">{ts}Installments{/ts}</th> -->
+            <th scope="col">{ts}Cancel Date{/ts}</th>
             <th scope="col">{ts}Status{/ts}</th>
             <th scope="col">&nbsp;</th>
         </tr>
@@ -70,10 +73,13 @@
         {foreach from=$recurRows item=row}
             {assign var=id value=$row.id}
             <tr id="contribution_recur-{$row.id}" data-action="cancel" class="crm-entity {cycle values="even-row,odd-row"}{if NOT $row.is_active} disabled{/if}">
+                <td>{$row.payment_processor_name}</td>
+                <td>{$row.trxn_id}</td>
                 <td>{$row.amount|crmMoney:$row.currency}{if $row.is_test} ({ts}test{/ts}){/if}</td>
                 <td>{ts}Every{/ts} {$row.frequency_interval} {$row.frequency_unit} </td>
                 <td>{$row.start_date|crmDate}</td>
-                <td>{$row.installments}</td>
+                <!-- <td>{$row.installments}</td> -->
+                <td>{$row.cancel_date}</td>
                 <td>{$row.contribution_status}</td>
                 <td>
                     {$row.action|replace:'xx':$row.recurId}
