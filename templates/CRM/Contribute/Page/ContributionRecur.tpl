@@ -50,6 +50,7 @@
             <tr><td class="label">{ts}Auto Renew?{/ts}</td><td>{if $recur.auto_renew}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td></tr>
             {if $recur.payment_processor}<tr><td class="label">{ts}Payment Processor{/ts}</td><td>{$recur.payment_processor}</td></tr>{/if}
           </table>
+          {include file="CRM/Custom/Page/CustomDataView.tpl"}
           <div class="crm-submit-buttons"><a class="button cancel crm-form-submit" href="{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=contribute'}">{ts}Done{/ts}</a></div>
         </div>
     {/if}

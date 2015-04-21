@@ -930,7 +930,7 @@ class CRM_Contribute_BAO_Query {
     );
 
     // Add all the custom searchable fields
-    $contribution = array('Contribution');
+    $contribution = array('Contribution', 'ContributionRecur');
     $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail(NULL, TRUE, $contribution);
     if ($groupDetails) {
       $form->assign('contributeGroupTree', $groupDetails);
