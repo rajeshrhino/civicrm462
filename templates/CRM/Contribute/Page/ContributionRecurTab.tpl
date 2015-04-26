@@ -29,7 +29,7 @@
     {include file="CRM/Contribute/Form/ContributionView.tpl"}
 {else}
     <div class="view-content">
-        <!--<div id="help">
+        <div id="help">
             {if $permission EQ 'edit'}
               {capture assign=newContribRecurURL}{crmURL p="civicrm/contributionrecur/add" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
               {capture assign=link}class="action-item" href="{$newContribRecurURL}"{/capture}
@@ -45,7 +45,7 @@
                 <br /><br />
             </div>
       <div class='clear'> </div>
-        {/if} -->
+        {/if}
 
         {if $recur}
             <div>
