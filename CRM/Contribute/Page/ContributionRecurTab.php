@@ -207,7 +207,7 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
     if ($this->_contactId) {
       $displayName = CRM_Contact_BAO_Contact::displayName($this->_contactId);
       $this->assign('displayName', $displayName);
-      $this->ajaxResponse['tabCount'] = CRM_Contact_BAO_Contact::getCountComponent('contribution', $this->_contactId);
+      $this->ajaxResponse['tabCount'] = CRM_Contact_BAO_Contact::getCountComponent('contributionrecur', $this->_contactId);
     }
   }
 
