@@ -104,7 +104,19 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     $ids = array();
     $params = array('id' => $this->_id);
 		if (!empty($this->_id)) {
-			CRM_Contribute_BAO_ContributionRecur::getValues($params, $this->_values, $ids);
+			$recurring = new CRM_Contribute_BAO_ContributionRecur();
+      $recurring->copyValues($params);
+      $recurring->find(TRUE);
+      $ids['contributionrecur'] = $recurring->id;
+      CRM_Core_DAO::storeValues($recurring, $this->_values);
+
+      $membership = new CRM_Member_DAO_Membership();
+      $membership->contribution_recur_id = $this->_id;
+      $membership->is_test = 0;
+      if ($membership->find(true)) {
+        $this->_membershipID = $membership->id;
+        $this->assign('membershipID', $this->_membershipID);
+      }
 
       // Get all backoffice payment processors
       $backOfficePaymentProcessors = CRM_Contribute_BAO_ContributionRecur::getBackOfficePaymentProcessors();
@@ -123,14 +135,6 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     }
 
     $this->setPageTitle(ts('Recurring Contribution record'));
-
-    $membership = new CRM_Member_DAO_Membership();
-    $membership->contribution_recur_id = $this->_id;
-    $membership->is_test = 0;
-    if ($membership->find(true)) {
-      $this->_membershipID = $membership->id;
-      $this->assign('membershipID', $this->_membershipID);
-    }
 
     parent::preProcess();
   }
@@ -329,6 +333,10 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 
     foreach ($dates as $d) {
       $params[$d] = CRM_Utils_Date::processDate($formValues[$d]);
+    }
+
+    if (empty($this->_id)) {
+      $params['create_date'] = CRM_Utils_Date::processDate(date('Y-m-d'));
     }
 
     $fields = array(
