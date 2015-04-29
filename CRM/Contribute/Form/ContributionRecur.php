@@ -212,7 +212,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       $memberships = $this->add('select', 'membership_id',
         ts('Membership'),
         array('' => ts('- select -')) + self::getContactMemberships($this->_contactID),
-        TRUE,
+        FALSE,
         NULL
       );
     }
