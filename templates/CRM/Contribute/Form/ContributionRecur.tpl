@@ -23,6 +23,7 @@
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 *}
+
 {* this template is used for editing recurring contribution record*}
 {if $cdType}
   {include file="CRM/Custom/Form/CustomData.tpl"}
@@ -45,6 +46,13 @@
                 <td{$valueStyle}>{$form.financial_type_id.html}
                 </td>
             </tr>
+            {if $action eq 1}
+            <tr class="crm-contribution-form-block-contribution_type_id crm-contribution-form-block-financial_type_id">
+                <td class="label">{$form.membership_id.label}</td>
+                <td{$valueStyle}>{$form.membership_id.html}
+                </td>
+            </tr>
+            {/if}
             <tr  class="crm-contribution-form-block-total_amount">
                 <td class="label">{$form.amount.label}</td>
                 <td {$valueStyle}>
@@ -174,24 +182,41 @@
     <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="bottom"}</div>
 {/if}
 
+{if !$cdType}
+
 {literal}
 <script type="text/javascript">
 CRM.$(function() {
     
     var $form = cj("form.{/literal}{$form.formClass}{literal}");
     cj("#contact_id", $form).change(displayMemberships);
+
+    var contactID = {/literal}{$contactID}{literal};
+    var currentMembershipID = '';
+
+    {/literal}{if $membershipID}{literal}
+        currentMembershipID = {/literal}{$membershipID}{literal};
+    {/literal}{/if}{literal}
     
     function displayMemberships( ) {
         var data = cj("#contact_id", $form).select2('data');
         cj('input[name=selected_cid]').val(data.id);
+        var selectedContactId = data.id;
         CRM.api('Membership', 'get', {'contact_id': data.id},
         {success: function(data) {
+
             cj('#membership_record').find('option').remove();    
             cj('#membership_record').append(cj('<option>', { 
                 value: '0',
                 text : '- select -'
             }));
             cj.each(data.values, function(key, value) {
+
+                // Remove if current membership is in the list
+                if (contactID == selectedContactId && currentMembershipID != ''){
+                    //data.values[currentMembershipID].remove();
+                    data.values.splice(key, 1);
+                }
             
                 // Get membership status label
                 var membershipStatusId = value.status_id;
@@ -239,3 +264,5 @@ cj(document).ready(function(){
 
 </script>
 {/literal}
+
+{/if}

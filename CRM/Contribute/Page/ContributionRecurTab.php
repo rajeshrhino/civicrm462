@@ -78,7 +78,7 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
         ),
       );
     }
-
+    
     if ($recurID) {
       $paymentProcessorObj = CRM_Financial_BAO_PaymentProcessor::getProcessorForEntity($recurID, 'recur', 'obj');
       if (is_object($paymentProcessorObj) && $paymentProcessorObj->isSupported('cancelSubscription')) {
@@ -132,6 +132,9 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
     $action = array_sum(array_keys($this->recurLinks()));
     $params = CRM_Contribute_BAO_ContributionRecur::getRecurContributions($this->_contactId);
 
+    // Get all backoffice payment processors
+    $backOfficePaymentProcessors = CRM_Contribute_BAO_ContributionRecur::getBackOfficePaymentProcessors();
+
     if (!empty($params)) {
       foreach ($params as $ids => $recur) {
         $action = array_sum(array_keys($this->recurLinks($ids)));
@@ -151,7 +154,14 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
             $action -= CRM_Core_Action::UPDATE;
           }
 
-          $params[$ids]['action'] = CRM_Core_Action::formLink(self::recurLinks($ids), $action,
+          $links = self::recurLinks($ids);
+
+          // Disable Edit link if no back office support 
+          if (!array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
+            unset($links[2]);
+          }
+          
+          $params[$ids]['action'] = CRM_Core_Action::formLink($links, $action,
             array(
               'cid' => $this->_contactId,
               'crid' => $ids,
@@ -165,6 +175,7 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
           );
         }
       }
+
       // assign vars to templates
       $this->assign('action', $this->_action);
       $this->assign('recurRows', $params);
@@ -196,7 +207,7 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
     if ($this->_contactId) {
       $displayName = CRM_Contact_BAO_Contact::displayName($this->_contactId);
       $this->assign('displayName', $displayName);
-      $this->ajaxResponse['tabCount'] = CRM_Contact_BAO_Contact::getCountComponent('contributionrecur', $this->_contactId);
+      $this->ajaxResponse['tabCount'] = CRM_Contact_BAO_Contact::getCountComponent('contribution', $this->_contactId);
     }
   }
 
