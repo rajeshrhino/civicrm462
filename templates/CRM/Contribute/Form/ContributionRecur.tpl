@@ -46,6 +46,11 @@
                 <td{$valueStyle}>{$form.financial_type_id.html}
                 </td>
             </tr>
+            <tr class="crm-contribution-form-block-contribution_type_id crm-contribution-form-block-financial_type_id">
+                <td class="label">{$form.contribution_status_id.label}</td>
+                <td{$valueStyle}>{$form.contribution_status_id.html}
+                </td>
+            </tr>
             {if $action eq 1}
             <tr class="crm-contribution-form-block-contribution_type_id crm-contribution-form-block-financial_type_id">
                 <td class="label">{$form.membership_id.label}</td>

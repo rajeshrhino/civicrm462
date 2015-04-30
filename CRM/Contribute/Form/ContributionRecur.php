@@ -211,6 +211,13 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       TRUE,
       NULL
     );
+    
+    $contributionStatus = $this->add('select', 'contribution_status_id',
+      ts('Status'),
+      array('' => ts('- select -')) + CRM_Contribute_PseudoConstant::contributionStatus(),
+      TRUE,
+      NULL
+    );
 
     if ($this->_action == 1) {
       $memberships = $this->add('select', 'membership_id',
@@ -348,6 +355,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
         'frequency_interval',
         'frequency_unit',
         'cycle_day',
+        'contribution_status_id',
       );
       foreach ($fields as $f) {
         $params[$f] = CRM_Utils_Array::value($f, $formValues);
