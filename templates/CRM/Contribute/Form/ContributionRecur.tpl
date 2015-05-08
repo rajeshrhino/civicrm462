@@ -76,6 +76,7 @@
               <td class="label">{$form.start_date.label}</td>
               <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td>
             </tr>
+            {if $action eq 2}
             <tr id="cencelDate" class="crm-contribution-form-block-cancel_date">
               <td class="label">{$form.cancel_date.label}</td>
               <td>{include file="CRM/common/jcalendar.tpl" elementName=cancel_date}</td>
@@ -84,6 +85,7 @@
               <td class="label">{$form.next_sched_contribution_date.label}</td>
               <td>{include file="CRM/common/jcalendar.tpl" elementName=next_sched_contribution_date}</td>
             </tr>
+            {/if}
             <tr class="crm-contribution-form-block-cycle_day">
                 <td class="label">{$form.cycle_day.label}</td>
                 <td>{$form.cycle_day.html}</td>
