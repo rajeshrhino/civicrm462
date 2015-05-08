@@ -40,6 +40,10 @@
             <tr class="crm-contribution-form-block-trxn_id">
                 <td class="label">{$form.trxn_id.label}</td>
                 <td>{$form.trxn_id.html}</td>
+            </tr>
+            <tr class="crm-contribution-form-block-processor_id">
+                <td class="label">{$form.processor_id.label}</td>
+                <td>{$form.processor_id.html}</td>
             </tr>  
             <tr class="crm-contribution-form-block-contribution_type_id crm-contribution-form-block-financial_type_id">
                 <td class="label">{$form.financial_type_id.label}</td>

@@ -61,6 +61,7 @@
         <tr class="columnheader">
             <th scope="col">{ts}Payment Processor{/ts}</th>
             <th scope="col">{ts}Processor ID{/ts}</th>
+            <th scope="col">{ts}Transaction ID{/ts}</th>
             <th scope="col">{ts}Total Amount{/ts}</th>
             <th scope="col">{ts}Frequency{/ts}</th>
             <th scope="col">{ts}Start Date{/ts}</th>
@@ -74,6 +75,7 @@
             {assign var=id value=$row.id}
             <tr id="contribution_recur-{$row.id}" data-action="cancel" class="crm-entity {cycle values="even-row,odd-row"}{if NOT $row.is_active} disabled{/if}">
                 <td>{$row.payment_processor_name}</td>
+                <td>{$row.processor_id}</td>
                 <td>{$row.trxn_id}</td>
                 <td>{$row.amount|crmMoney:$row.currency}{if $row.is_test} ({ts}test{/ts}){/if}</td>
                 <td>{ts}Every{/ts} {$row.frequency_interval} {$row.frequency_unit} </td>

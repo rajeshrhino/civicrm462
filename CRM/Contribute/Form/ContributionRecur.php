@@ -204,6 +204,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     );
 
     $trxnId = $this->add('text', 'trxn_id', ts('Transaction ID'), array('class' => 'twelve'));
+    $processorid = $this->add('text', 'processor_id', ts('Processor ID'), array('class' => 'twelve'));
 
     $financialType = $this->add('select', 'financial_type_id',
       ts('Financial Type'),
@@ -348,6 +349,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 
     $fields = array(
         'payment_processor_id',
+        'processor_id',
         'trxn_id',
         'financial_type_id',
         'amount',
@@ -356,7 +358,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
         'frequency_unit',
         'cycle_day',
         'contribution_status_id',
-      );
+    );
       foreach ($fields as $f) {
         $params[$f] = CRM_Utils_Array::value($f, $formValues);
       }

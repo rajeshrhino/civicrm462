@@ -394,6 +394,7 @@ SELECT r.payment_processor_id
       $params[$recurDAO->id]['end_date'] = $recurDAO->end_date;
       $params[$recurDAO->id]['cancel_date'] = $recurDAO->cancel_date;
       $params[$recurDAO->id]['trxn_id'] = $recurDAO->trxn_id;
+      $params[$recurDAO->id]['processor_id'] = $recurDAO->processor_id;
       $params[$recurDAO->id]['next_sched_contribution_date'] = $recurDAO->next_sched_contribution_date;
       $params[$recurDAO->id]['amount'] = $recurDAO->amount;
       $params[$recurDAO->id]['currency'] = $recurDAO->currency;
