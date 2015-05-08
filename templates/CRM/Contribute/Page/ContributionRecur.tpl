@@ -42,6 +42,8 @@
             {if $recur.cancel_date}<tr><td class="label">{ts}End Date{/ts}</td><td>{$recur.end_date|crmDate}</td></tr>{/if}
             {if $recur.processor_id}<tr><td class="label">{ts}Processor ID{/ts}</td><td>{$recur.processor_id}</td></tr>{/if}
             <tr><td class="label">{ts}Transaction ID{/ts}</td><td>{$recur.trxn_id}</td></tr>
+            <tr><td class="label">{ts}Financial Type{/ts}</td><td>{$recur.financial_type_name}</td></tr>
+            <tr><td class="label">{ts}Paid By{/ts}</td><td>{$recur.payment_instrument}</td></tr>
             {if $recur.invoice_id}<tr><td class="label">{ts}Invoice ID{/ts}</td><td>{$recur.invoice_id}</td></tr>{/if}
             <tr><td class="label">{ts}Cycle Day{/ts}</td><td>{$recur.cycle_day}</td></tr>
             {if $recur.contribution_status_id neq 3}<tr><td class="label">{ts}Next Contribution{/ts}</td><td>{$recur.next_sched_contribution_date|crmDate}</td></tr>{/if}
