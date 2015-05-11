@@ -25,6 +25,17 @@
 *}
 
 {* this template is used for editing recurring contribution record*}
+{if $action eq 8}
+<div class="crm-block crm-form-block crm-contribution-form-block">
+<div class="messages status no-popup">
+    <div class="icon inform-icon"></div>
+    {ts}WARNING: Deleting this recurring contribution will result in the loss of the associated financial transactions (if any).{/ts} {ts}Do you want to continue?{/ts}
+  </div>
+  <div class="crm-submit-buttons">
+    {include file="CRM/common/formButtons.tpl"}
+  </div>
+</div>  
+{else}
 {if $cdType}
   {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
@@ -276,4 +287,5 @@ cj(document).ready(function(){
 </script>
 {/literal}
 
+{/if}
 {/if}

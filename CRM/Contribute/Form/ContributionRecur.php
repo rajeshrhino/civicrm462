@@ -98,6 +98,10 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       list($this->userDisplayName, $this->userEmail) = CRM_Contact_BAO_Contact_Location::getEmailDetails($this->_contactID);
       $this->assign('displayName', $this->userDisplayName);
     }
+    
+    if ($this->_action & CRM_Core_Action::DELETE) {
+      return;
+    }
 
     $this->_values = array();
 
@@ -165,6 +169,10 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       }
     }
 
+    if ($this->_action & CRM_Core_Action::DELETE) {
+      return $defaults;
+    }
+    
     // Set move existing contributions to TRUE as default
     $defaults['move_existing_contributions'] = 1;
     $defaults['contact_id'] = $this->_contactID;
@@ -182,6 +190,23 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
    */
   function buildQuickForm( ) {
 
+    if ($this->_action & CRM_Core_Action::DELETE) {
+      $this->addButtons(array(
+          array(
+            'type' => 'next',
+            'name' => ts('Delete'),
+            'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            'isDefault' => TRUE,
+          ),
+          array(
+            'type' => 'cancel',
+            'name' => ts('Cancel')
+          )
+        )
+      );
+      return;
+    }
+    
     if ($this->_cdType) {
       CRM_Custom_Form_CustomData::buildQuickForm($this);
       return;
@@ -322,6 +347,15 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
    */
   public function postProcess() {
 
+    $session = CRM_Core_Session::singleton();
+    if ($this->_action & CRM_Core_Action::DELETE) {
+      CRM_Contribute_BAO_ContributionRecur::deleteRecurContribution($this->_id);
+      $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view',
+        "reset=1&cid={$this->_contactID}&selectedChild=contribute-recur"
+      ));
+      return;
+    }
+    
     // get the submitted form values.
     $submittedValues = $this->controller->exportValues($this->_name);  
 

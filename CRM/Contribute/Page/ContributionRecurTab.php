@@ -71,6 +71,12 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
           'url' => 'civicrm/contributionrecur/add',
           'qs' => "reset=1&action=update&crid=%%crid%%&cid=%%cid%%&context={$context}",
         ),
+        CRM_Core_Action::DELETE => array(
+          'name' => ts('Delete'),
+          'title' => ts('Delete Recurring Payment'),
+          'url' => 'civicrm/contributionrecur/add',
+          'qs' => "reset=1&action=delete&crid=%%crid%%&cid=%%cid%%&context={$context}",
+        ),
         CRM_Core_Action::DISABLE => array(
           'name' => ts('Cancel'),
           'title' => ts('Cancel'),
@@ -138,42 +144,46 @@ class CRM_Contribute_Page_ContributionRecurTab extends CRM_Core_Page {
     if (!empty($params)) {
       foreach ($params as $ids => $recur) {
         $action = array_sum(array_keys($this->recurLinks($ids)));
+        
         // no action allowed if it's not active
         $params[$ids]['is_active'] = ($recur['contribution_status_id'] != 3);
 
-        if ($params[$ids]['is_active']) {
+        // Get payment processor name
+        $paymentProcessorDetails = CRM_Financial_BAO_PaymentProcessor::getPayment($params[$ids]['payment_processor_id'], 'live');
+        $params[$ids]['payment_processor_name'] = $paymentProcessorDetails['name'];
 
-          // Get payment processor name
-          $paymentProcessorDetails = CRM_Financial_BAO_PaymentProcessor::getPayment($params[$ids]['payment_processor_id'], 'live');
-          $params[$ids]['payment_processor_name'] = $paymentProcessorDetails['name'];
+        $details = CRM_Contribute_BAO_ContributionRecur::getSubscriptionDetails($params[$ids]['id'], 'recur');
+        $hideUpdate = $details->membership_id & $details->auto_renew;
 
-          $details = CRM_Contribute_BAO_ContributionRecur::getSubscriptionDetails($params[$ids]['id'], 'recur');
-          $hideUpdate = $details->membership_id & $details->auto_renew;
-
-          if ($hideUpdate) {
-            $action -= CRM_Core_Action::UPDATE;
-          }
-
-          $links = self::recurLinks($ids);
-
-          // Disable Edit link if no back office support 
-          if (!array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
-            unset($links[2]);
-          }
-          
-          $params[$ids]['action'] = CRM_Core_Action::formLink($links, $action,
-            array(
-              'cid' => $this->_contactId,
-              'crid' => $ids,
-              'cxt' => 'contribution',
-            ),
-            ts('more'),
-            FALSE,
-            'contribution.selector.recurring',
-            'Contribution',
-            $ids
-          );
+        if ($hideUpdate) {
+          $action -= CRM_Core_Action::UPDATE;
         }
+
+        $links = self::recurLinks($ids);
+
+        // Disable Edit/Delete link if no back office support 
+        if (!array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
+          unset($links[2]);
+          unset($links[8]);
+        }
+        
+        // Remove cancel link for already cancelled recurring records
+        if ($recur['contribution_status_id'] == 3) {
+          unset($links[64]);
+        }
+
+        $params[$ids]['action'] = CRM_Core_Action::formLink($links, $action,
+          array(
+            'cid' => $this->_contactId,
+            'crid' => $ids,
+            'cxt' => 'contribution',
+          ),
+          ts('more'),
+          FALSE,
+          'contribution.selector.recurring',
+          'Contribution',
+          $ids
+        );
       }
 
       // assign vars to templates
