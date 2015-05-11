@@ -347,6 +347,9 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       $params['create_date'] = CRM_Utils_Date::processDate(date('Y-m-d'));
     }
 
+    if ($this->_action & CRM_Core_Action::ADD) {
+      $params['next_sched_contribution_date'] = $params['start_date'];
+    }
     $fields = array(
         'payment_processor_id',
         'processor_id',
