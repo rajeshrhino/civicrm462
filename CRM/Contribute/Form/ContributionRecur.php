@@ -230,7 +230,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     }
 
     $totalAmount = $this->addMoney('amount',
-      ts('Total Amount'),
+      ts('Amount'),
       FALSE,
       NULL,
       TRUE, 'currency', NULL, FALSE

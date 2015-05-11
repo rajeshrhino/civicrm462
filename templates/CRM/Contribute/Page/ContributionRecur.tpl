@@ -31,7 +31,7 @@
         <h3>{ts}View Recurring Payment{/ts}</h3>
         <div class="crm-block crm-content-block crm-recurcontrib-view-block">
           <table class="crm-info-panel">
-            <tr><td class="label">{ts}Total Amount{/ts}</td><td>{$recur.amount|crmMoney:$recur.currency}{if $is_test} ({ts}test{/ts}){/if}</td></tr>
+            <tr><td class="label">{ts}Amount{/ts}</td><td>{$recur.amount|crmMoney:$recur.currency}{if $is_test} ({ts}test{/ts}){/if}</td></tr>
             <tr><td class="label">{ts}Frequency{/ts}</td><td>every {$recur.frequency_interval} {$recur.frequency_unit}</td></tr>
             <tr><td class="label">{ts}Installments{/ts}</td><td>{$recur.installments}</td></tr>
             <tr><td class="label">{ts}Status{/ts}</td><td>{$recur.contribution_status}</td></tr>
@@ -64,7 +64,7 @@
             <th scope="col">{ts}Payment Processor{/ts}</th>
             <th scope="col">{ts}Processor ID{/ts}</th>
             <th scope="col">{ts}Transaction ID{/ts}</th>
-            <th scope="col">{ts}Total Amount{/ts}</th>
+            <th scope="col">{ts}Amount{/ts}</th>
             <th scope="col">{ts}Frequency{/ts}</th>
             <th scope="col">{ts}Start Date{/ts}</th>
             <!-- <th scope="col">{ts}Installments{/ts}</th> -->
