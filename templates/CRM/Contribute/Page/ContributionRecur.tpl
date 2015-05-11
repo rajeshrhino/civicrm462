@@ -40,7 +40,7 @@
             {if $recur.modified_date}<tr><td class="label">{ts}Modified Date{/ts}</td><td>{$recur.modified_date|crmDate}</td></tr>{/if}
             {if $recur.cancel_date}<tr><td class="label">{ts}Cancelled Date{/ts}</td><td>{$recur.cancel_date|crmDate}</td></tr>{/if}
             {if $recur.cancel_date}<tr><td class="label">{ts}End Date{/ts}</td><td>{$recur.end_date|crmDate}</td></tr>{/if}
-            {if $recur.processor_id}<tr><td class="label">{ts}Processor ID{/ts}</td><td>{$recur.processor_id}</td></tr>{/if}
+            <tr><td class="label">{ts}Processor ID{/ts}</td><td>{$recur.processor_id}</td></tr>
             <tr><td class="label">{ts}Transaction ID{/ts}</td><td>{$recur.trxn_id}</td></tr>
             <tr><td class="label">{ts}Financial Type{/ts}</td><td>{$recur.financial_type_name}</td></tr>
             <tr><td class="label">{ts}Paid By{/ts}</td><td>{$recur.payment_instrument}</td></tr>
@@ -63,7 +63,6 @@
         <tr class="columnheader">
             <th scope="col">{ts}Payment Processor{/ts}</th>
             <th scope="col">{ts}Processor ID{/ts}</th>
-            <th scope="col">{ts}Transaction ID{/ts}</th>
             <th scope="col">{ts}Amount{/ts}</th>
             <th scope="col">{ts}Frequency{/ts}</th>
             <th scope="col">{ts}Start Date{/ts}</th>
@@ -78,7 +77,6 @@
             <tr id="contribution_recur-{$row.id}" data-action="cancel" class="crm-entity {cycle values="even-row,odd-row"}{if NOT $row.is_active} disabled{/if}">
                 <td>{$row.payment_processor_name}</td>
                 <td>{$row.processor_id}</td>
-                <td>{$row.trxn_id}</td>
                 <td>{$row.amount|crmMoney:$row.currency}{if $row.is_test} ({ts}test{/ts}){/if}</td>
                 <td>{ts}Every{/ts} {$row.frequency_interval} {$row.frequency_unit} </td>
                 <td>{$row.start_date|crmDate}</td>
