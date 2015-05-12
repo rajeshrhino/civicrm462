@@ -270,7 +270,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 
     $totalAmount = $this->addMoney('amount',
       ts('Amount'),
-      FALSE,
+      TRUE,
       NULL,
       TRUE, 'currency', NULL, FALSE
     );
@@ -290,7 +290,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     $frequencyInterval = $this->add('text', 'frequency_interval', ts('Every'), array('maxlength' => 2, 'size' => 2), true);
     
     // add dates
-    $this->addDateTime('start_date', ts('Start Date'), FALSE, array('formatType' => 'activityDate'));
+    $this->addDateTime('start_date', ts('Start Date'), TRUE, array('formatType' => 'activityDate'));
     $this->addDateTime('cancel_date', ts('Cancel Date'), FALSE, array('formatType' => 'activityDate'));
     $this->addDateTime('next_sched_contribution_date', ts('Next Scheduled Contribution Date'), FALSE, array('formatType' => 'activityDate'));
 
