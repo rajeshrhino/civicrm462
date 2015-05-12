@@ -191,33 +191,25 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
   function buildQuickForm( ) {
 
     if ($this->_action & CRM_Core_Action::DELETE) {
-      // Check if any contributions exist for the recurring record
+      // Check if any contributions created for the recurring record
       $recurringIds = array($this->_id);
       $contributionCount = CRM_Contribute_BAO_ContributionRecur::getCount($recurringIds);
       if (isset($contributionCount[$this->_id]) && $contributionCount[$this->_id] > 0) {
-        $this->assign('dontAllowDelete' , 1);
-        $this->addButtons(array(
-            array(
-              'type' => 'cancel',
-              'name' => ts('Cancel')
-            )
-          )
-        );
-      } else {
-        $this->addButtons(array(
-            array(
-              'type' => 'next',
-              'name' => ts('Delete'),
-              'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-              'isDefault' => TRUE,
-            ),
-            array(
-              'type' => 'cancel',
-              'name' => ts('Cancel')
-            )
-          )
-        );
+        $this->assign('contributionCount' , $contributionCount[$this->_id]);
       }
+      $this->addButtons(array(
+          array(
+            'type' => 'next',
+            'name' => ts('Delete'),
+            'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            'isDefault' => TRUE,
+          ),
+          array(
+            'type' => 'cancel',
+            'name' => ts('Cancel')
+          )
+        )
+      );
       return;
     }
     
@@ -363,6 +355,15 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 
     $session = CRM_Core_Session::singleton();
     if ($this->_action & CRM_Core_Action::DELETE) {
+      // Delete the linked contributions
+      $contribution = new CRM_Contribute_DAO_Contribution();
+      $contribution->contribution_recur_id = $this->_id;
+      $contribution->find();
+      while ($contribution->fetch()) {
+        CRM_Contribute_BAO_Contribution::deleteContribution($contribution->id);
+      }
+
+      // Delete recurring contribution record
       CRM_Contribute_BAO_ContributionRecur::deleteRecurContribution($this->_id);
       $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view',
         "reset=1&cid={$this->_contactID}&selectedChild=contribute-recur"

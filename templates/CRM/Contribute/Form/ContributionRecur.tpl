@@ -29,13 +29,10 @@
 <div class="crm-block crm-form-block crm-contribution-form-block">
 <div class="messages status no-popup">
     <div class="icon inform-icon"></div>
-    {if $dontAllowDelete}
-        {ts}WARNING: You are not allowed to deleting this recurring contribution, as contributions are linked to the recurring contribution record{/ts}.<br ><br >
-        {ts}Move the contribution to another recurring contribution record before deleting this record.{/ts}
-    {else}
-        {ts}WARNING: Deleting this recurring contribution will result in the loss of the associated financial transactions (if any).{/ts} {ts}Do you want to continue?{/ts}
-    {/if}
-  </div>
+    {ts}WARNING: Deleting this recurring contribution will result in the loss of the associated contributions (if any).{/ts}<br />
+    {if $contributionCount}{ts}There are {$contributionCount} contribution(s) linked with this recurring contribution record .{/ts}<br />{/if}
+    {ts}Do you want to continue?{/ts}
+    </div>
   <div class="crm-submit-buttons">
     {include file="CRM/common/formButtons.tpl"}
   </div>
