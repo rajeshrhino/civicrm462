@@ -67,6 +67,8 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     if (!CRM_Core_Permission::checkActionPermission('CiviContribute', $this->_action)) {
       CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
     }
+    
+    $this->setPageTitle(ts('Recurring Contribution record'));
 
     $this->_cdType = CRM_Utils_Array::value('type', $_GET);
 
@@ -138,8 +140,6 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       CRM_Custom_Form_CustomData::setDefaultValues($this);
     }
 
-    $this->setPageTitle(ts('Recurring Contribution record'));
-
     parent::preProcess();
   }
 
@@ -191,19 +191,33 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
   function buildQuickForm( ) {
 
     if ($this->_action & CRM_Core_Action::DELETE) {
-      $this->addButtons(array(
-          array(
-            'type' => 'next',
-            'name' => ts('Delete'),
-            'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-            'isDefault' => TRUE,
-          ),
-          array(
-            'type' => 'cancel',
-            'name' => ts('Cancel')
+      // Check if any contributions exist for the recurring record
+      $recurringIds = array($this->_id);
+      $contributionCount = CRM_Contribute_BAO_ContributionRecur::getCount($recurringIds);
+      if (isset($contributionCount[$this->_id]) && $contributionCount[$this->_id] > 0) {
+        $this->assign('dontAllowDelete' , 1);
+        $this->addButtons(array(
+            array(
+              'type' => 'cancel',
+              'name' => ts('Cancel')
+            )
           )
-        )
-      );
+        );
+      } else {
+        $this->addButtons(array(
+            array(
+              'type' => 'next',
+              'name' => ts('Delete'),
+              'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+              'isDefault' => TRUE,
+            ),
+            array(
+              'type' => 'cancel',
+              'name' => ts('Cancel')
+            )
+          )
+        );
+      }
       return;
     }
     
