@@ -32,6 +32,9 @@
   <div class="crm-accordion-body">
     <table class="form-layout-compressed">
       <tr>
+        <td colspan=2">{$form.contribution_recur_payment_made.html}</td>
+      </tr>  
+      <tr>
         <td>{ts}Start Date{/ts}</td>
         <td>
           {include file="CRM/Core/DateRange.tpl" fieldName="contribution_recur_start_date" from='_low' to='_high'}
