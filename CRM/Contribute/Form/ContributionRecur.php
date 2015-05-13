@@ -391,6 +391,14 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     foreach ($dates as $d) {
       $params[$d] = CRM_Utils_Date::processDate($formValues[$d]);
     }
+    
+    if (empty($params['cancel_date'])) {
+      $params['cancel_date'] = 'NULL'; 
+    }
+
+    if (empty($params['next_sched_contribution_date'])) {
+      $params['next_sched_contribution_date'] = 'NULL'; 
+    }
 
     if (empty($this->_id)) {
       $params['create_date'] = CRM_Utils_Date::processDate(date('Y-m-d'));
