@@ -989,7 +989,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
     }
     if (!empty($fields['contribution_recur_id'])) {
       $contributionRecur = new CRM_Contribute_DAO_ContributionRecur();
-      $contributionRecur->contribution_recur_id = $fields['contribution_recur_id'];
+      $contributionRecur->id = $fields['contribution_recur_id'];
       $contributionRecur->find(TRUE);
 
       if ($fields['financial_type_id'] != $contributionRecur->financial_type_id || $fields['payment_instrument_id'] != $contributionRecur->payment_instrument_id) {
