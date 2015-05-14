@@ -242,7 +242,8 @@
       <div class="crm-accordion-body">
         <table class="form-layout-compressed">
             <tr class="crm-contribution-form-block-contribution_type_id crm-contribution-form-block-contribution_recur_id">
-              <td class="label">{$form.contribution_recur_id.label}</td><td{$valueStyle}>{$form.contribution_recur_id.html}&nbsp;
+              <td class="label">{$form.contribution_recur_id.label}</td><td{$valueStyle}>{$form.contribution_recur_id.html}<br/>
+                <sub>( Amount / Payment Processor / Status / Start Date)</sub>
               </td>
             </tr>
         </table>
