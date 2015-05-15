@@ -115,10 +115,7 @@
     {* Show the below sections only for edit/update action *}
     {if $action eq 2}
     {* Display existing contributions of the recur record *}
-    {assign var="existingContributionsAvailable" value=0}
-    {crmAPI var='result' entity='Contribution' action='get' contribution_recur_id=$entityID}
-    {if !empty($result.values)}
-    {assign var="existingContributionsAvailable" value=1}
+    {if $associatedContributions}
     <div class="crm-accordion-wrapper crm-contributionDetails-accordion collapsed">
         <div class="crm-accordion-header active">
           Existing Contributions
@@ -134,7 +131,7 @@
                     <th>{ts}Received{/ts}</th>
                     <th>{ts}Status{/ts}</th>
                 </tr>    
-                {foreach from=$result.values item=ContributionDetails}
+                {foreach from=$associatedContributions item=ContributionDetails}
                 <tr>
                     <td>{$ContributionDetails.total_amount|crmMoney}</td>
                     <td>{$ContributionDetails.financial_type}</td>

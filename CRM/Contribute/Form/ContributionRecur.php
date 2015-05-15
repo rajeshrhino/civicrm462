@@ -277,6 +277,19 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 			$this->assign('show_move_membership_field', 1);
 		}
 
+    // build associated contributions
+    $associatedContributions = array();
+    $contributions = new CRM_Contribute_DAO_Contribution();
+    $contributions->contribution_recur_id = $this->_id;
+    while ($contributions->find(TRUE)) {
+      $associatedContributions[$contributions->id]['total_amount'] = $contributions->total_amount;
+      $associatedContributions[$contributions->id]['financial_type'] = CRM_Contribute_PseudoConstant::financialType($contributions->financial_type_id);
+      $associatedContributions[$contributions->id]['contribution_source'] = $contributions->source;
+      $associatedContributions[$contributions->id]['receive_date'] = $contributions->receive_date;
+      $associatedContributions[$contributions->id]['contribution_status'] = CRM_Contribute_PseudoConstant::contributionStatus($contributions->contribution_status_id);
+    }
+    $this->assign('associatedContributions', $associatedContributions);
+
     $this->addButtons(array(
         array(
           'type' => 'upload',
