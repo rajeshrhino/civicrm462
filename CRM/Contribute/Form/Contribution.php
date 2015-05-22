@@ -659,6 +659,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
     
     if ($this->_context == 'standalone') {
       $this->assign('showRecurringField', 1);
+      $backOfficePaymentProcessors = CRM_Contribute_BAO_ContributionRecur::getBackOfficePaymentProcessors();
+      $this->assign('backOfficePaymentProcessors', json_encode($backOfficePaymentProcessors));
       $recurringContribution = $this->add('select', 'contribution_recur_id', ts('Recurring Contribution'), FALSE, NULL);
     } else {
       $recurContributions = array();
@@ -672,13 +674,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
             }
           }
       }
-
-        if (!empty($recurContributions)) {
-          $this->assign('showRecurringField', 1);
-        $recurringContribution = $this->add('select', 'contribution_recur_id', ts('Recurring Contribution'), array('' => ts('- select -')) + $recurContributions, FALSE, NULL
-          );
-        }
-      
+      if (!empty($recurContributions)) {
+        $this->assign('showRecurringField', 1);
+      $recurringContribution = $this->add('select', 'contribution_recur_id', ts('Recurring Contribution'), array('' => ts('- select -')) + $recurContributions, FALSE, NULL
+        );
+      }
     }
     $trxnId = $this->add('text', 'trxn_id', ts('Transaction ID'), array('class' => 'twelve') + $attributes['trxn_id']);
 

@@ -445,26 +445,29 @@
         
         function displayRecurring( ) {
             var data = $("#contact_id", $form).select2('data');
+            var paymentProcessor = {/literal}{$backOfficePaymentProcessors}{literal};
             if (data) {
-            CRM.api3('ContributionRecur', 'get', {'contact_id': data.id},
-                {success: function(data) {
-                    cj('#contribution_recur_id').find('option').remove();    
-                    cj('#contribution_recur_id').append(cj('<option>', { 
-                        value: '',
-                        text : '- select -'
-                    }));
-                    cj.each(data.values, function(key, value) {
-                        CRM.api3('PaymentProcessor', 'get', {
-                            "sequential": 1,
-                            "id": value.payment_processor_id,
-                        }).done(function(result) {
-                            cj('#contribution_recur_id').append(cj('<option>', { 
-                                value: value.id,
-                                text : value.amount + ' / ' + result.values[0].name + ' / ' + value.contribution_status_id + ' / ' + value.start_date
-                                }));
-                            });
-                    });
-                }
+                CRM.api3('ContributionRecur', 'get', {'contact_id': data.id},
+                    {success: function(data) {
+                        cj('#contribution_recur_id').find('option').remove();    
+                        cj('#contribution_recur_id').append(cj('<option>', { 
+                            value: '',
+                            text : '- select -'
+                        }));
+                        cj.each(data.values, function(key, value) {
+                            if (paymentProcessor[value.payment_processor_id]){
+                                CRM.api3('PaymentProcessor', 'get', {
+                                    "sequential": 1,
+                                    "id": value.payment_processor_id,
+                                }).done(function(result) {
+                                    cj('#contribution_recur_id').append(cj('<option>', { 
+                                        value: value.id,
+                                        text : value.amount + ' / ' + result.values[0].name + ' / ' + value.contribution_status_id + ' / ' + value.start_date
+                                    }));
+                                });
+                            }
+                        });
+                    }
                 }); 
             }
         }
