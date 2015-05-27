@@ -956,7 +956,7 @@ class CRM_Contribute_BAO_Query {
     $form->addRadio('contribution_recur_payment_made', ts(''), $recurringPaymentOptions);
 
     // Add all the custom searchable fields
-    $contribution = array('Contribution', 'ContributionRecur');
+    $contribution = array('Contribution');
     $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail(NULL, TRUE, $contribution);
     if ($groupDetails) {
       $form->assign('contributeGroupTree', $groupDetails);

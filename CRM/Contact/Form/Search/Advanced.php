@@ -70,7 +70,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     $this->_searchOptions = CRM_Core_BAO_Setting::valueOptions(CRM_Core_BAO_Setting::SYSTEM_PREFERENCES_NAME,
       'advanced_search_options'
     );
-
+    // Add recurring contribution section in advanced search
+    $this->_searchOptions['recurringcontribution'] = 1;
     if (!$this->_searchPane || $this->_searchPane == 'basic') {
       CRM_Contact_Form_Search_Criteria::basic($this);
     }
@@ -84,6 +85,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
       ts('Demographics') => 'demographics',
       ts('Notes') => 'notes',
       ts('Change Log') => 'changeLog',
+      ts('Recurring Contributions') => 'recurringcontribution',
     );
 
     //check if there are any custom data searchable fields

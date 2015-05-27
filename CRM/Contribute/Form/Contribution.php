@@ -269,7 +269,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
 
     //set the contribution mode.
     $this->_mode = CRM_Utils_Request::retrieve('mode', 'String', $this);
-
+    
     $this->assign('contributionMode', $this->_mode);
     if ($this->_action & CRM_Core_Action::DELETE) {
       return;
@@ -591,7 +591,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
     }
     if (empty($this->_recurPaymentProcessors)) {
       $buildRecurBlock = FALSE;
-    }
+    } 
     if ($buildRecurBlock) {
       CRM_Contribute_Form_Contribution_Main::buildRecur($this);
       $this->setDefaults(array('is_recur' => 0));
@@ -656,24 +656,30 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
         TRUE, array('onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);")
       );
     }
-    $recurContributions = array();
-      $existingRecurContributions = CRM_Contribute_BAO_ContributionRecur::getRecurContributions($this->_contactID);
-      // Get all backoffice payment processors
+    
+    if ($this->_context == 'standalone') {
+      $this->assign('showRecurringField', 1);
       $backOfficePaymentProcessors = CRM_Contribute_BAO_ContributionRecur::getBackOfficePaymentProcessors();
-      if (!empty($existingRecurContributions)) {
-        foreach ($existingRecurContributions as $ids => $recur) {
-          if (array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
-           $recurContributions[$ids] = CRM_Utils_Money::format($recur['amount']) . ' / ' . $backOfficePaymentProcessors[$recur['payment_processor_id']] . ' / ' . CRM_Contribute_PseudoConstant::contributionStatus($recur['contribution_status_id']) . ' / ' . CRM_Utils_Date::customFormat($recur['start_date']);
+      $this->assign('backOfficePaymentProcessors', json_encode($backOfficePaymentProcessors));
+      $recurringContribution = $this->add('select', 'contribution_recur_id', ts('Recurring Contribution'), FALSE, NULL);
+    } else {
+      $recurContributions = array();
+        $existingRecurContributions = CRM_Contribute_BAO_ContributionRecur::getRecurContributions($this->_contactID);
+        // Get all backoffice payment processors
+        $backOfficePaymentProcessors = CRM_Contribute_BAO_ContributionRecur::getBackOfficePaymentProcessors();
+        if (!empty($existingRecurContributions)) {
+          foreach ($existingRecurContributions as $ids => $recur) {
+            if (array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
+             $recurContributions[$ids] = CRM_Utils_Money::format($recur['amount']) . ' / ' . $backOfficePaymentProcessors[$recur['payment_processor_id']] . ' / ' . CRM_Contribute_PseudoConstant::contributionStatus($recur['contribution_status_id']) . ' / ' . CRM_Utils_Date::customFormat($recur['start_date']);
+            }
           }
-        }
-    }
-
+      }
       if (!empty($recurContributions)) {
         $this->assign('showRecurringField', 1);
       $recurringContribution = $this->add('select', 'contribution_recur_id', ts('Recurring Contribution'), array('' => ts('- select -')) + $recurContributions, FALSE, NULL
         );
       }
-
+    }
     $trxnId = $this->add('text', 'trxn_id', ts('Transaction ID'), array('class' => 'twelve') + $attributes['trxn_id']);
 
     //add receipt for offline contribution
