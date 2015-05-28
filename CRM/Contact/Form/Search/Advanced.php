@@ -70,8 +70,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     $this->_searchOptions = CRM_Core_BAO_Setting::valueOptions(CRM_Core_BAO_Setting::SYSTEM_PREFERENCES_NAME,
       'advanced_search_options'
     );
-    // Add recurring contribution section in advanced search
-    $this->_searchOptions['recurringcontribution'] = 1;
+    
+    // Get view options
+    $this->_viewOptions = CRM_Core_BAO_Setting::valueOptions(
+      CRM_Core_BAO_Setting::SYSTEM_PREFERENCES_NAME,
+      'contact_view_options',
+      TRUE
+    );
+    
     if (!$this->_searchPane || $this->_searchPane == 'basic') {
       CRM_Contact_Form_Search_Criteria::basic($this);
     }
@@ -125,6 +131,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
       $paneNames[$pane['title']] = $pane['name'];
       if ($pane['name'] == 'CiviContribute') {
         $paneNames[ts('Recurring Contributions')] = 'recurringcontribution';
+        if (array_key_exists('CiviContribute', $this->_searchOptions) 
+          && !empty($this->_viewOptions['CiviContributeRecur']) 
+          && CRM_Core_Permission::access('CiviContribute')) {
+            $this->_searchOptions['recurringcontribution'] = 1;
+        }
       }
     }
 
