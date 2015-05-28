@@ -85,7 +85,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
       ts('Demographics') => 'demographics',
       ts('Notes') => 'notes',
       ts('Change Log') => 'changeLog',
-      ts('Recurring Contributions') => 'recurringcontribution',
     );
 
     //check if there are any custom data searchable fields
@@ -124,6 +123,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     foreach ($componentPanes as $name => $pane) {
       // FIXME: we should change the use of $name here to keyword
       $paneNames[$pane['title']] = $pane['name'];
+      if ($pane['name'] == 'CiviContribute') {
+        $paneNames[ts('Recurring Contributions')] = 'recurringcontribution';
+      }
     }
 
     $hookPanes = array();
