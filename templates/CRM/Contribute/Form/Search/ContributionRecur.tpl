@@ -66,7 +66,7 @@
  
       {if $contributeGroupTree}
         <tr>
-            <td colspan="2">
+            <td colspan="3">
             {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}</td>
         </tr>
       {/if}
