@@ -158,7 +158,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
       $defaults['amount'] = CRM_Utils_Money::format($defaults['amount'], NULL, '%a');
     }
 
-    $dates = array('start_date', 'cancel_date', 'next_sched_contribution_date');
+    $dates = array('start_date', 'end_date', 'cancel_date', 'next_sched_contribution_date');
     foreach ($dates as $key) {
       if (!empty($defaults[$key])) {
         list($defaults[$key],
@@ -283,6 +283,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     
     // add dates
     $this->addDateTime('start_date', ts('Start Date'), TRUE, array('formatType' => 'activityDate'));
+    $this->addDateTime('end_date', ts('End Date'), FALSE, array('formatType' => 'activityDate'));
     $this->addDateTime('cancel_date', ts('Cancel Date'), FALSE, array('formatType' => 'activityDate'));
     $this->addDateTime('next_sched_contribution_date', ts('Next Scheduled Contribution Date'), FALSE, array('formatType' => 'activityDate'));
 
@@ -397,22 +398,15 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
 
     $dates = array(
       'start_date',
+      'end_date',
       'cancel_date',
       'next_sched_contribution_date',
     );
 
     foreach ($dates as $d) {
-      $params[$d] = CRM_Utils_Date::processDate($formValues[$d]);
+      $params[$d] = !empty($formValues[$d]) ? CRM_Utils_Date::processDate($formValues[$d]) : NULL;
     }
     
-    if (empty($params['cancel_date'])) {
-      $params['cancel_date'] = 'NULL'; 
-    }
-
-    if (empty($params['next_sched_contribution_date'])) {
-      $params['next_sched_contribution_date'] = 'NULL'; 
-    }
-
     if (empty($this->_id)) {
       $params['create_date'] = CRM_Utils_Date::processDate(date('Y-m-d'));
     }

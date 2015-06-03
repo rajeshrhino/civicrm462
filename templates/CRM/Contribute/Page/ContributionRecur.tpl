@@ -43,7 +43,7 @@
             <tr><td class="label">{ts}Created Date{/ts}</td><td>{$recur.create_date|crmDate}</td></tr>
             {if $recur.modified_date}<tr><td class="label">{ts}Modified Date{/ts}</td><td>{$recur.modified_date|crmDate}</td></tr>{/if}
             {if $recur.cancel_date}<tr><td class="label">{ts}Cancelled Date{/ts}</td><td>{$recur.cancel_date|crmDate}</td></tr>{/if}
-            {if $recur.cancel_date}<tr><td class="label">{ts}End Date{/ts}</td><td>{$recur.end_date|crmDate}</td></tr>{/if}
+            {if $recur.end_date}<tr><td class="label">{ts}End Date{/ts}</td><td>{$recur.end_date|crmDate}</td></tr>{/if}
             <tr><td class="label">{ts}Installments{/ts}</td><td>{$recur.installments}</td></tr>      
             {if $recur.invoice_id}<tr><td class="label">{ts}Invoice ID{/ts}</td><td>{$recur.invoice_id}</td></tr>{/if}
             <tr><td class="label">{ts}Cycle Day{/ts}</td><td>{$recur.cycle_day}</td></tr>
@@ -67,6 +67,7 @@
             <th scope="col">{ts}Frequency{/ts}</th>
             <th scope="col">{ts}Start Date{/ts}</th>
             <!-- <th scope="col">{ts}Installments{/ts}</th> -->
+            <th scope="col">{ts}End Date{/ts}</th>
             <th scope="col">{ts}Cancel Date{/ts}</th>
             <th scope="col">{ts}Status{/ts}</th>
             <th scope="col">&nbsp;</th>
@@ -80,6 +81,7 @@
                 <td>{$row.amount|crmMoney:$row.currency}{if $row.is_test} ({ts}test{/ts}){/if}</td>
                 <td>{ts}Every{/ts} {$row.frequency_interval} {$row.frequency_unit} </td>
                 <td>{$row.start_date|crmDate}</td>
+                <td>{$row.end_date|crmDate}</td>
                 <!-- <td>{$row.installments}</td> -->
                 <td>{$row.cancel_date|crmDate}</td>
                 <td>{$row.contribution_status}</td>

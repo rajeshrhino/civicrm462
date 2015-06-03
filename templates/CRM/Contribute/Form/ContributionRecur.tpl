@@ -94,6 +94,10 @@
               <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td>
             </tr>
             {if $action eq 2}
+            <tr id="endDate" class="crm-contribution-form-block-end_date">
+              <td class="label">{$form.end_date.label}</td>
+              <td>{include file="CRM/common/jcalendar.tpl" elementName=end_date}</td>
+            </tr>
             <tr id="cencelDate" class="crm-contribution-form-block-cancel_date">
               <td class="label">{$form.cancel_date.label}</td>
               <td>{include file="CRM/common/jcalendar.tpl" elementName=cancel_date}</td>
