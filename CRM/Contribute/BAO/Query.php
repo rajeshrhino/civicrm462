@@ -584,7 +584,8 @@ class CRM_Contribute_BAO_Query {
         if ($mode == 1) {
             // 'Made payment for the recurring contributions?' is ticked yes
           if (self::$_contribRecurPayment == 'yes') {
-            $from = " $side JOIN civicrm_contribution_recur ON civicrm_contribution.contribution_recur_id = civicrm_contribution_recur.id ";
+            $from = " $side JOIN civicrm_contribution_recur ON contact_a.id = civicrm_contribution_recur.contact_id ";
+            $from .= " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = contact_a.id ";
           } else {
             $from = " $side JOIN civicrm_contribution_recur ON contact_a.id = civicrm_contribution_recur.contact_id ";
           }
