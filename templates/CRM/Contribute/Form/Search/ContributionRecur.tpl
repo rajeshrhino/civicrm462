@@ -64,10 +64,10 @@
         </td>
       </tr>
  
-      {if $contributeGroupTree}
+      {if $contributeRecurGroupTree}
         <tr>
             <td colspan="3">
-            {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}</td>
+            {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeRecurGroupTree showHideLinks=false}</td>
         </tr>
       {/if}
 

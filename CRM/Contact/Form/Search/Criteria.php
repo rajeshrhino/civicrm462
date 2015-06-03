@@ -581,7 +581,7 @@ class CRM_Contact_Form_Search_Criteria {
     $contributionRecur = array('ContributionRecur');
     $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail(NULL, TRUE, $contributionRecur);
     if ($groupDetails) {
-      $form->assign('contributeGroupTree', $groupDetails);
+      $form->assign('contributeRecurGroupTree', $groupDetails);
       foreach ($groupDetails as $group) {
         foreach ($group['fields'] as $field) {
           $fieldId = $field['id'];
