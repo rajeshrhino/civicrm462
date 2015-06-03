@@ -52,8 +52,7 @@
             </tr>
             <tr class="crm-contribution-form-block-processor_id">
                 <td class="label">{$form.processor_id.label}</td>
-                <td>{$form.processor_id.html}<br/>
-            <sub> Payment processor's own ID or reference for this recurring contribution. Ideally should be unique but in practice may not be. </sub></td>
+                <td>{$form.processor_id.html}&nbsp;{help id="id-processor_id" file="CRM/Contribute/Page/Tab.hlp"}</td>
             </tr>
             <tr class="crm-contribution-form-block-trxn_id">
                 <td class="label">{$form.trxn_id.label}</td>
