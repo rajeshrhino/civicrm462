@@ -571,7 +571,7 @@ class CRM_Contact_Form_Search_Criteria {
         0 => ts(' All recurring contributions'),
         1 => ts(' Made atleast one payment for the recurring contributions'),
     );
-    $form->addRadio('contribution_recur_payment_made', ts(''), $recurringPaymentOptions);
+    $form->addRadio('contribution_recur_payment_made', ts(''), $recurringPaymentOptions, array('allowClear' => TRUE));
     CRM_Core_Form_Date::buildDateRange($form, 'contribution_recur_start_date', 1, '_low', '_high', ts('From'), FALSE, FALSE, 'birth');
     CRM_Core_Form_Date::buildDateRange($form, 'contribution_recur_end_date', 1, '_low', '_high', ts('From'), FALSE, FALSE, 'birth');
     CRM_Core_Form_Date::buildDateRange($form, 'contribution_recur_modified_date', 1, '_low', '_high', ts('From'), FALSE, FALSE, 'birth');
