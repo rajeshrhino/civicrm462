@@ -168,7 +168,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
         );
       }
     }
-
+    
     if ($this->_action & CRM_Core_Action::DELETE) {
       return $defaults;
     }
@@ -282,10 +282,10 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     $frequencyInterval = $this->add('text', 'frequency_interval', ts('Every'), array('maxlength' => 2, 'size' => 2), true);
     
     // add dates
-    $this->addDateTime('start_date', ts('Start Date'), TRUE, array('formatType' => 'activityDate'));
-    $this->addDateTime('end_date', ts('End Date'), FALSE, array('formatType' => 'activityDate'));
-    $this->addDateTime('cancel_date', ts('Cancel Date'), FALSE, array('formatType' => 'activityDate'));
-    $this->addDateTime('next_sched_contribution_date', ts('Next Scheduled Contribution Date'), FALSE, array('formatType' => 'activityDate'));
+    $this->addDateTime('start_date', ts('Start Date'), TRUE, array('formatType' => 'activityDateTime'));
+    $this->addDateTime('end_date', ts('End Date'), FALSE, array('formatType' => 'activityDateTime'));
+    $this->addDateTime('cancel_date', ts('Cancel Date'), FALSE, array('formatType' => 'activityDateTime'));
+    $this->addDateTime('next_sched_contribution_date', ts('Next Scheduled Contribution Date'), FALSE, array('formatType' => 'activityDateTime'));
 
     $cycleDay = $this->add('text', 'cycle_day', ts('Cycle day'), array('maxlength' => 2, 'size' => 2), true);
 
@@ -404,7 +404,7 @@ class CRM_Contribute_Form_ContributionRecur extends CRM_Core_Form {
     );
 
     foreach ($dates as $d) {
-      $params[$d] = !empty($formValues[$d]) ? CRM_Utils_Date::processDate($formValues[$d]) : NULL;
+      $params[$d] = CRM_Utils_Date::processDate($formValues[$d], $formValues[$d . '_time'], TRUE);
     }
     
     if (empty($this->_id)) {
