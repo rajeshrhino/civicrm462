@@ -505,7 +505,19 @@ class CRM_Contribute_BAO_Query {
           self::$_contribRecurPayment = 'no';
         }
         $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
-        return;    
+        return;  
+        
+      case 'contribution_recur_processor_id':
+        $value = "$value";
+        $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause(" civicrm_contribution_recur.processor_id", $op, $value, "String");
+        $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
+        return;
+        
+      case 'contribution_recur_trxn_id':
+        $value = "$value";
+        $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause(" civicrm_contribution_recur.trxn_id", $op, $value, "String");
+        $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
+        return;
         
       case 'contribution_campaign_id':
         $campParams = array(

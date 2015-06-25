@@ -63,6 +63,14 @@
           {include file="CRM/Core/DateRange.tpl" fieldName="contribution_recur_cancel_date" from='_low' to='_high'}
         </td>
       </tr>
+       <tr>
+        <td>{$form.contribution_recur_processor_id.label}</td>
+        <td>{$form.contribution_recur_processor_id.html}</td>
+      </tr>
+      <tr>
+        <td>{$form.contribution_recur_trxn_id.label}</td>
+        <td>{$form.contribution_recur_trxn_id.html}</td>
+      </tr>
  
       {if $contributeRecurGroupTree}
         <tr>
