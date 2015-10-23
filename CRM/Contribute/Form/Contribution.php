@@ -670,7 +670,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Contribute_Form_AbstractEditP
         if (!empty($existingRecurContributions)) {
           foreach ($existingRecurContributions as $ids => $recur) {
             if (array_key_exists($recur['payment_processor_id'], $backOfficePaymentProcessors)) {
-             $recurContributions[$ids] = CRM_Utils_Money::format($recur['amount']) . ' / ' . $backOfficePaymentProcessors[$recur['payment_processor_id']] . ' / ' . CRM_Contribute_PseudoConstant::contributionStatus($recur['contribution_status_id']) . ' / ' . CRM_Utils_Date::customFormat($recur['start_date']);
+	      $recurContributions[$ids] = $backOfficePaymentProcessors[$recur['payment_processor_id']]. ' / ' .CRM_Utils_Date::customFormat($recur['start_date'], '%Y-%m-%d').' / '. CRM_Contribute_PseudoConstant::contributionStatus($recur['contribution_status_id']).' / '.CRM_Utils_Money::format($recur['amount']);
+	      if ($recur['trxn_id']) {
+		$recurContributions[$ids] = $recur['trxn_id'];
+	      } else if ($recur['processor_id']) {		
+		$recurContributions[$ids] = $recur['processor_id'];
+	      } 
             }
           }
       }
